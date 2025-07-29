@@ -7,7 +7,7 @@ A simplified Pokemon-style roast battle game for the hackathon. Users submit roa
 
 ### 1. Roast Input & Processing
 - Text-based roast input via simple web form
-- Two target options: Donald Trump or Elon Musk
+- Two targets that automatically alternate: Donald Trump or Elon Musk
 - Instant AI analysis and scoring
 
 ### 2. Roast Type Classification
