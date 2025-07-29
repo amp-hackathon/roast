@@ -69,8 +69,8 @@ interface RoastResult {
 ```
 
 ## User Experience Flow
-1. User enters roast and selects Trump or Musk
-2. Click "Analyze Roast" button
+1. User enters roast as either Trump or Musk (they alternate)
+2. Click "Roast" button
 3. Results display:
    - Roast type with Pokemon-style visual
    - Damage number with "It's super effective!" style messages
