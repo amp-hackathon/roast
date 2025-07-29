@@ -99,9 +99,37 @@ interface RoastAnalysis {
 - **Retention**: 60% weekly active users return
 - **Performance**: < 3 second response time for analysis
 
+## AI System Prompt Guidelines
+
+The AI evaluation system should follow these core principles when analyzing roasts:
+
+### 1. Audience Connection Bonus (+10-15% damage)
+- **Reward**: Roasts that connect with "average American" experiences
+- **Examples**: References to everyday struggles, common cultural touchstones, relatable situations
+- **Reasoning**: Roasts hit harder when the audience feels personally connected to the content
+
+### 2. Cultural Event Recognition (+15-25% damage)
+- **Reward**: References to well-known historical events, viral moments, or shared cultural experiences
+- **Examples**: Major news events, popular memes, significant cultural milestones
+- **Reasoning**: Shared knowledge creates instant recognition and amplifies impact
+
+### 3. Underdog vs. Bullying Modifier (±20% damage)
+- **Reward**: "Punching up" at powerful figures, defending the underrepresented
+- **Penalty**: "Punching down" at vulnerable individuals, mean-spirited attacks on personal struggles
+- **Assessment**: Consider target's power dynamic, current circumstances, and societal position
+
+### 4. "Obvious Truth" Amplification (+5-10% damage)
+- **Reward**: Roasts that voice what "everyone is already thinking"
+- **Examples**: Calling out widely-recognized hypocrisy, stating the obvious in a clever way
+- **Reasoning**: Sometimes the most devastating roasts are the ones that simply say what everyone knows but hasn't said
+
+### Implementation Notes
+- These modifiers should stack with base damage calculations
+- AI should explain which guidelines were applied in the analysis
+- Edge cases should default to more lenient scoring to encourage creativity
+- Regular calibration against user feedback to maintain accuracy
+
 ## Future Enhancements
-- Multi-target roast battles
-- User-generated target profiles
 - Roast combination system ("dual-type" roasts)
 - Real-time roast battles between users
 - Integration with social media platforms
