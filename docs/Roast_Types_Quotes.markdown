@@ -5,6 +5,6 @@
 | **Electric** | "What is this ‘Covfefe’?!?"                                                        | "Covfefe"                                                                             |
 | **Psychic**  | "Is it time to create a new political party in America that actually represents the 80% in the middle?" | "I’m, like, a really smart person. I went to Wharton, was a good student, OK?"         |
 | **Dark**     | "President vs Elon. Who wins? My money's on Elon. Trump should be impeached and JD Vance should replace him." | "I could have said ‘drop to your knees and beg,’ and he would have done it."           |
-| **Normal**   | "He knew the inner workings of the bill better than anybody sitting here. He had no problem with it until it cut his subsidies." | "Elon’s a billionaire, but he’s not as rich as people think, believe me."              |
+| **Normal**   | "Hey Donald, I bet your tweets are so powerful they could launch a Tesla Roadster into orbit... too bad they keep landing in the controversy crater instead!" | "Elon’s a billionaire, but he’s not as rich as people think, believe me."              |
 | **Flying**   | "Without me, Trump would have lost the election, Dems would control the House and the Republicans would be 51-49 in the Senate." | "Elon would be worthless without government subsidies I helped him get!"               |
 | **Ground**   | "If you’re wondering why your taxes are so high, it’s because of bills like this one!" | "I know more about taxes than anybody, folks, I’ve been doing this a long time."       |

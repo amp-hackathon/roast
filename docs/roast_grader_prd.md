@@ -24,6 +24,9 @@ Based on content analysis, classify roasts into Pokemon-inspired types:
 | **Flying** | High-level, aspirational attacks | Career/status-based roasts |
 | **Ground** | Down-to-earth, relatable burns | Common person perspective |
 
+#### 2.1. Default Roasts
+
+
 ### 3. Simplified Damage System
 - **Base Damage**: AI assigns 1-100 based on overall roast quality
 - **Type Effectiveness**: 2x (super effective), 1x (normal), 0.5x (not very effective)
