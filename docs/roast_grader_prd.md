@@ -7,7 +7,7 @@ A simplified Pokemon-style roast battle game for the hackathon. Users submit roa
 
 ### 1. Roast Input & Processing
 - Text-based roast input via simple web form
-- Two target options: Donald Trump or Elon Musk
+- Two targets that automatically alternate: Donald Trump or Elon Musk
 - Instant AI analysis and scoring
 
 ### 2. Roast Type Classification
@@ -28,9 +28,16 @@ Based on content analysis, classify roasts into Pokemon-inspired types:
 
 
 ### 3. Simplified Damage System
-- **Base Damage**: AI assigns 1-100 based on overall roast quality
-- **Type Effectiveness**: 2x (super effective), 1x (normal), 0.5x (not very effective)
+- **Base Damage**: AI assigns 1-50 based on overall roast quality
+- **Type Effectiveness**: 1.5x (super effective), 1x (normal), 0.75x (not very effective)
 - **Final Damage**: Base × Type Effectiveness
+
+**Damage Scale Targets:**
+- Good solid roast: 30-35 base damage
+- With normal effectiveness (1x): 30-35 final damage ✓
+- With super effective (1.5x): 45-52 final damage
+- With not very effective (0.75x): 22-26 final damage
+- **Target**: 3 good roasts ≈ 100 total damage
 
 ### 4. Target Profiles (MVP)
 **Donald Trump**
@@ -62,8 +69,8 @@ interface RoastResult {
 ```
 
 ## User Experience Flow
-1. User enters roast and selects Trump or Musk
-2. Click "Analyze Roast" button
+1. User enters roast against either Trump or Musk (they alternate)
+2. Click "Roast" button
 3. Results display:
    - Roast type with Pokemon-style visual
    - Damage number with "It's super effective!" style messages
