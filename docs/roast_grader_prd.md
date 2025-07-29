@@ -69,7 +69,7 @@ interface RoastResult {
 ```
 
 ## User Experience Flow
-1. User enters roast as either Trump or Musk (they alternate)
+1. User enters roast against either Trump or Musk (they alternate)
 2. Click "Roast" button
 3. Results display:
    - Roast type with Pokemon-style visual
