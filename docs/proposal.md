@@ -15,6 +15,7 @@ mechanics:
  - game loop 03b1: each fighter starts with 0 baby oil/diddy points
  - game loop 03b1: diddy points added based on strenth of insult/attack
  - game loop 03b3: baby oil pools at feet of player recieving attack(p2 in iter 1)
+ GAME LOOP ITERATES FROM GAME LOOP FROM 00 through 03b3 until
  - game loop 03b4: first player to 100 diddy points slipps in baby oil and loses
 
  display:
