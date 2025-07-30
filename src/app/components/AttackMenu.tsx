@@ -12,7 +12,7 @@ export default function AttackMenu({ fighter, attacks, onAttackSelect }: AttackM
   const fighterName = fighter === 'trump' ? 'Trump' : 'Elon';
   
   return (
-    <div className="absolute bottom-4 right-4 bg-white/95 border-4 border-black rounded-lg p-4 max-w-md">
+    <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white/95 border-4 border-black rounded-lg p-4 max-w-md">
       <h3 className="font-bold text-lg mb-3 text-black">{fighterName}&apos;s Turn</h3>
       <p className="text-sm text-gray-900 mb-4">Choose an attack:</p>
       

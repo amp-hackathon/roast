@@ -11,7 +11,7 @@ export default function VictoryScreen({ winner, onRestart }: VictoryScreenProps)
   const winnerName = winner === 'trump' ? 'TRUMP' : 'ELON';
   
   return (
-    <div className="absolute inset-0 bg-black/70 flex items-center justify-center z-50">
+    <div className="absolute inset-0 bg-black/10 flex items-center justify-center z-50">
       <div className="text-center">
         <div className="bg-white border-8 border-yellow-400 rounded-3xl p-12 shadow-2xl">
           <div className="text-6xl font-bold text-yellow-600 mb-4 animate-pulse">
