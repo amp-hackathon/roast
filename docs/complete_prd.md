@@ -24,7 +24,7 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 2. **AI Evaluation**: Roast grader analyzes and scores the roast (see Roast Grader PRD)
 3. **Attack Animation**: Pokemon-style battle animation plays
 4. **Damage Application**: Damage added based on roast strength (25-54 points per roast)
-5. **Visual Feedback**: Baby oil accumulates at defender's feet
+5. **Visual Feedback**: Damage stat increases at defender's feet
 6. **Turn Switch**: Roles reverse, opponent's turn
 7. **Win Condition**: First to 100 damage slips and loses
 
@@ -104,11 +104,10 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 
 ### Key UI Components
 1. **Battle Arena**: Pokemon-style split screen with fighters
-2. **Health/Points Display**: Damage counter labeled as "Diddy Points" for each player
-3. **Baby Oil Visual**: Animated pools that grow with damage
-4. **Roast Input**: Large text area for entering insults
-5. **Combat Log**: Scrollable history of previous roasts and results
-6. **Audio Controls**: Background music and sound effect toggles
+2. **Damage/Points Display**: Damage counter labeled as "Diddy Points" for each player
+3. **Roast Input**: Large text area for entering insults
+4. **Combat Log**: Scrollable history of previous roasts and results
+5. **Audio Controls**: Background music and sound effect toggles
 
 ## Feature Specifications
 
@@ -127,22 +126,17 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
    - Two numbers showing Diddy Points
    - Basic background image
    - Current player indicator
+   - Super Effective/Not Very Effective Messages
 
-3. **ZERO POLISH**
-   - No animations
-   - No sound (unless Agent 4 has extra time)
-   - No fancy CSS
+3. **LOW POLISH**
    - No baby oil visualization
    - No combat log
 
 ### 🚫 FEATURES TO CUT (SAVE TIME)
-- Pre-game coin flip
 - Context setting
 - Animated attacks
 - Baby oil pools
-- Audio system
 - Combat history
-- Type effectiveness messages
 - Victory animations
 
 ## ⚡ PARALLEL EXECUTION PLAN (90 MINUTES)
@@ -172,7 +166,7 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 2. Display fighter sprites from `/assets/fighters/`
 3. Show background from `/assets/scenes/`
 4. Damage counters labeled as "Diddy Points"
-5. Simple baby oil visual indicator
+5. Simple baby oil text indicator
 
 ### Agent 4: Integration & Polish (30 minutes)
 **PRIORITY: FINAL ASSEMBLY**
@@ -261,7 +255,7 @@ const initialState: GameState = {
 ## Risk Mitigation
 
 ### High Risk Items
-1. **AI Integration Complexity**: Keep roast grader API simple, fallback to random scoring
+1. **AI Integration Complexity**: Keep roast grader API simple, fallback to 30 damage
 2. **Asset Integration**: Test asset loading early, have backup placeholder images
 3. **State Management**: Use simple React state, avoid complex state libraries
 4. **Time Management**: Prioritize core functionality over polish
