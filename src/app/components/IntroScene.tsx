@@ -80,7 +80,7 @@ export default function IntroScene({ onComplete }: IntroSceneProps) {
       
       {/* Progress indicator */}
       <div className="absolute top-4 right-4 bg-white/80 rounded-lg px-3 py-1">
-        <span className="text-sm font-mono">
+        <span className="text-sm font-mono text-gray-900">
           {currentDialogue + 1} / {INTRO_DIALOGUE.length}
         </span>
       </div>

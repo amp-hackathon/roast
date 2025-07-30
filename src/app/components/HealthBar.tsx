@@ -44,7 +44,7 @@ export default function HealthBar({ fighter, currentHealth, maxHealth, position 
         <span>{Math.max(0, Math.round(currentHealth))} / {maxHealth}</span>
       </div>
       
-      <div className="text-xs text-gray-600 mt-1">
+      <div className="text-xs text-gray-900 mt-1">
         Diddy Points
       </div>
     </div>

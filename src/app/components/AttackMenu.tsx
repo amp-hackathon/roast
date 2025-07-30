@@ -14,7 +14,7 @@ export default function AttackMenu({ fighter, attacks, onAttackSelect }: AttackM
   return (
     <div className="absolute bottom-4 right-4 bg-white/95 border-4 border-black rounded-lg p-4 max-w-md">
       <h3 className="font-bold text-lg mb-3">{fighterName}&apos;s Turn</h3>
-      <p className="text-sm text-gray-600 mb-4">Choose an attack:</p>
+      <p className="text-sm text-gray-900 mb-4">Choose an attack:</p>
       
       <div className="grid grid-cols-1 gap-2">
         {attacks.map((attack) => (
@@ -29,8 +29,8 @@ export default function AttackMenu({ fighter, attacks, onAttackSelect }: AttackM
                 {attack.type}
               </span>
             </div>
-            <p className="text-sm text-gray-700 line-clamp-2">{attack.roastText}</p>
-            <div className="text-xs text-gray-500 mt-1">
+            <p className="text-sm text-gray-900 line-clamp-2">{attack.roastText}</p>
+            <div className="text-xs text-gray-800 mt-1">
               Base Damage: {attack.baseDamage}
             </div>
           </button>

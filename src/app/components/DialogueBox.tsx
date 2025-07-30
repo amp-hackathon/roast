@@ -16,7 +16,7 @@ export default function DialogueBox({ dialogue, onNext, isLastDialogue }: Dialog
       <div className="bg-white/95 border-4 border-black rounded-lg p-6">
         <div className="flex justify-between items-center mb-2">
           <h3 className="font-bold text-lg">{speakerName}</h3>
-          <span className="text-sm text-gray-600">{dialogue.date}</span>
+          <span className="text-sm text-gray-800">{dialogue.date}</span>
         </div>
         
         <p className="text-base leading-relaxed mb-4">

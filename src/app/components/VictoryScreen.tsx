@@ -22,12 +22,12 @@ export default function VictoryScreen({ winner, onRestart }: VictoryScreenProps)
             {winnerName} WINS!
           </h1>
           
-          <h2 className="text-2xl text-gray-600 mb-8">
+          <h2 className="text-2xl text-gray-800 mb-8">
             The Ultimate King of Pettiness!
           </h2>
           
           <div className="space-y-4">
-            <div className="text-lg text-gray-700">
+            <div className="text-lg text-gray-900">
               {winner === 'trump' 
                 ? "The Art of the Deal strikes again!" 
                 : "Innovation and chaos triumph!"}
