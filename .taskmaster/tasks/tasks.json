@@ -1,0 +1,698 @@
+{
+  "master": {
+    "tasks": [
+      {
+        "id": 1,
+        "title": "Setup Game State Management and Core Game Engine",
+        "description": "Create the main game page with turn-based state management, player tracking, and basic game loop logic",
+        "details": "Create /src/app/game/page.tsx with React useState hooks for managing GameState interface including currentPlayer ('trump'|'elon'), trumpHealth/elonHealth (damage counters), gamePhase, combatLog, winner, and turnCount. Implement turn alternation logic, damage accumulation toward 100 points, and win/loss conditions. Use initialState with random first player selection.",
+        "testStrategy": "Test turn switching between players, verify damage accumulation reaches 100 triggers win condition, validate game state updates correctly after each roast submission",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create GameState Interface and Type Definitions",
+            "description": "Define the TypeScript interfaces and types for game state management including player types, game phases, and combat log structure",
+            "dependencies": [],
+            "details": "Create GameState interface with currentPlayer ('trump'|'elon'), trumpHealth/elonHealth (number), gamePhase ('setup'|'combat'|'finished'), combatLog (array of combat entries), winner (string|null), and turnCount (number). Define Player type union, GamePhase enum, and CombatLogEntry interface with timestamp, player, action, damage, and message fields.",
+            "status": "pending",
+            "testStrategy": "Validate type definitions compile correctly and provide proper type safety"
+          },
+          {
+            "id": 2,
+            "title": "Implement Core Game State Management with React Hooks",
+            "description": "Set up React useState hooks for managing all game state variables with proper initialization and state update functions",
+            "dependencies": [],
+            "details": "Create /src/app/game/page.tsx with useState hooks for gameState using GameState interface. Implement initialGameState with random first player selection (Math.random() < 0.5), both players at 0 health, gamePhase 'setup', empty combatLog, null winner, and turnCount 0. Create state update helper functions for cleaner state management.",
+            "status": "pending",
+            "testStrategy": "Test initial state creation, verify random player selection works, validate state updates trigger re-renders"
+          },
+          {
+            "id": 3,
+            "title": "Build Turn Alternation and Game Flow Logic",
+            "description": "Implement the core game loop with turn switching between players and game phase transitions",
+            "dependencies": [],
+            "details": "Create handleTurnEnd function that switches currentPlayer between 'trump' and 'elon', increments turnCount, and updates gamePhase appropriately. Implement startGame function to transition from 'setup' to 'combat' phase. Add game flow control to prevent actions during invalid phases and ensure proper turn sequencing.",
+            "status": "pending",
+            "testStrategy": "Test turn alternation between players, verify turn counter increments correctly, validate phase transitions occur at appropriate times"
+          },
+          {
+            "id": 4,
+            "title": "Implement Damage Accumulation and Win Condition Logic",
+            "description": "Create the damage tracking system that accumulates damage toward 100 points and determines game winners",
+            "dependencies": [],
+            "details": "Implement applyDamage function that adds damage to appropriate player's health counter (trumpHealth or elonHealth), checks if health reaches 100 points, and triggers win condition. Create checkWinCondition function that sets winner and transitions gamePhase to 'finished' when a player reaches 100 damage. Update combat log with damage events.",
+            "status": "pending",
+            "testStrategy": "Test damage accumulation for both players, verify win condition triggers at exactly 100 damage, validate game ends correctly with proper winner assignment"
+          },
+          {
+            "id": 5,
+            "title": "Create Basic Game UI Layout and State Display",
+            "description": "Build the fundamental UI components to display current game state, player information, and basic interaction elements",
+            "dependencies": [],
+            "details": "Create JSX layout in page.tsx with player health displays showing current damage counters, current player indicator, turn counter, game phase status, and basic combat log display. Add placeholder areas for roast input and submit functionality. Style with Tailwind CSS for clean presentation matching the game's aesthetic.",
+            "status": "pending",
+            "testStrategy": "Verify all game state values display correctly in UI, test responsive layout, validate visual updates when state changes"
+          }
+        ]
+      },
+      {
+        "id": 2,
+        "title": "Implement Roast Grader API Integration",
+        "description": "Create the roast evaluation API endpoint that scores roasts and returns damage values with fallback system",
+        "details": "Create /src/app/api/roast-grader/route.ts implementing POST endpoint that accepts roastText and target parameters. Return JSON with baseDamage (25-45), typeEffectiveness multiplier (0.8x-1.2x), finalDamage, type classification, and explanation. Include robust fallback system returning default 25-44 damage on API failures to ensure game remains playable.",
+        "testStrategy": "Test API with various roast inputs, verify damage range 25-54, test fallback mechanism when API fails, validate JSON response format matches expected interface",
+        "priority": "high",
+        "dependencies": [],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create API route structure and request validation",
+            "description": "Set up the basic API route file structure and implement request validation for the roast grader endpoint",
+            "dependencies": [],
+            "details": "Create /src/app/api/roast-grader/route.ts with POST handler. Implement request body validation to ensure roastText (string, min 10 characters) and target (string, valid character name) are provided. Return 400 errors for invalid requests with descriptive error messages. Set up proper TypeScript interfaces for request/response types.",
+            "status": "pending",
+            "testStrategy": "Test with missing parameters, invalid data types, empty strings, and valid requests to ensure proper validation"
+          },
+          {
+            "id": 2,
+            "title": "Implement roast scoring algorithm with damage calculation",
+            "description": "Create the core roast evaluation logic that analyzes text quality and calculates base damage values",
+            "dependencies": [
+              "2.1"
+            ],
+            "details": "Implement roast analysis algorithm that evaluates creativity, humor, and relevance. Calculate baseDamage in range 25-45 based on roast quality metrics like word count, sentiment analysis, creativity indicators, and target relevance. Include roast type classification (Witty, Savage, Clever, etc.) logic.",
+            "status": "pending",
+            "testStrategy": "Test with various roast qualities from weak to excellent, verify damage ranges stay within 25-45, validate type classifications are appropriate"
+          },
+          {
+            "id": 3,
+            "title": "Add type effectiveness multiplier system",
+            "description": "Implement the type effectiveness system that modifies damage based on roast type vs target character matchups",
+            "dependencies": [
+              "2.2"
+            ],
+            "details": "Create effectiveness mapping between roast types and character targets. Implement multiplier calculation (0.8x-1.2x range) based on character weaknesses/resistances. For example, Trump might be more vulnerable to political roasts (1.2x) but resistant to business roasts (0.8x). Calculate finalDamage = baseDamage * typeEffectiveness.",
+            "status": "pending",
+            "testStrategy": "Test all roast type vs character combinations, verify multipliers stay within 0.8x-1.2x range, confirm final damage calculations are correct"
+          },
+          {
+            "id": 4,
+            "title": "Build comprehensive fallback system",
+            "description": "Implement robust error handling and fallback mechanisms for API failures and edge cases",
+            "dependencies": [
+              "2.2",
+              "2.3"
+            ],
+            "details": "Create fallback system that generates random damage 25-44 when roast analysis fails. Implement try-catch blocks around scoring logic, timeout handling for long processing, and graceful degradation. Ensure consistent response format even in fallback mode with generic type classification and explanation messages.",
+            "status": "pending",
+            "testStrategy": "Simulate various failure scenarios including timeouts, errors in scoring logic, and invalid inputs. Verify fallback always returns valid damage in 25-44 range"
+          },
+          {
+            "id": 5,
+            "title": "Format and return complete API response",
+            "description": "Structure the final API response with all required fields and proper JSON formatting",
+            "dependencies": [
+              "2.3",
+              "2.4"
+            ],
+            "details": "Format response JSON with baseDamage, typeEffectiveness multiplier, finalDamage, type classification string, and explanation text. Ensure response matches expected interface for frontend consumption. Include proper HTTP status codes (200 for success, 400 for validation errors, 500 for server errors) and consistent error response format.",
+            "status": "pending",
+            "testStrategy": "Verify response structure matches frontend expectations, test all response scenarios including success and error cases, validate JSON formatting and data types"
+          }
+        ]
+      },
+      {
+        "id": 3,
+        "title": "Create Visual Game Interface Layout",
+        "description": "Build the Pokemon-style battle UI with fighter sprites, damage counters, and roast input interface",
+        "details": "Design game screen layout with background from /assets/scenes/america.png, fighter sprites from /assets/fighters/ (trump-left.png, trump-right.png, elon-left.png, elon-right.png), damage counters labeled as 'Diddy Points', roast input text area, submit button, and current player indicator. Use CSS Grid/Flexbox for Pokemon-style split screen layout.",
+        "testStrategy": "Verify all assets load correctly, test responsive layout on different screen sizes, validate fighter sprite positioning and damage counter display",
+        "priority": "medium",
+        "dependencies": [
+          1
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Main Game Layout Component Structure",
+            "description": "Build the foundational React component structure for the Pokemon-style battle interface with proper CSS Grid layout",
+            "dependencies": [],
+            "details": "Create the main game layout component in /src/app/game/page.tsx with CSS Grid container using 'grid-template-areas' to define battle screen regions: fighter-left, center-ui, fighter-right, bottom-controls. Set up background image from /assets/scenes/america.png as full-screen backdrop. Establish responsive design breakpoints for mobile and desktop views.",
+            "status": "pending",
+            "testStrategy": "Verify grid layout displays correctly on different screen sizes, confirm background image loads and covers viewport properly"
+          },
+          {
+            "id": 2,
+            "title": "Implement Fighter Sprite Display System",
+            "description": "Add fighter sprite components with dynamic positioning and asset loading for Trump and Elon characters",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Create FighterSprite component that dynamically loads sprites from /assets/fighters/ based on character (trump/elon) and position (left/right). Implement sprite positioning using absolute positioning within grid areas. Add hover effects and idle animations using CSS transforms. Handle sprite switching between normal and defeated states.",
+            "status": "pending",
+            "testStrategy": "Test all sprite assets load correctly (trump-left.png, trump-right.png, elon-left.png, elon-right.png), verify sprites position correctly in left/right battle areas"
+          },
+          {
+            "id": 3,
+            "title": "Build Damage Counter Display Components",
+            "description": "Create the 'Diddy Points' damage counter system with visual health bars and numeric displays",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Implement DamageCounter component displaying 'Diddy Points' label with current damage out of 100. Create visual health bars using CSS progress elements or custom div animations. Position counters above or beside fighter sprites. Add damage animation effects when values change, including color transitions (green to yellow to red as damage increases).",
+            "status": "pending",
+            "testStrategy": "Verify damage counters display correctly for both players, test damage value updates trigger visual animations, validate counter positioning doesn't overlap sprites"
+          },
+          {
+            "id": 4,
+            "title": "Create Roast Input Interface",
+            "description": "Build the bottom control panel with roast text input, submit button, and current player indicator",
+            "dependencies": [
+              "3.1"
+            ],
+            "details": "Design bottom control panel using Flexbox layout containing: large textarea for roast input (placeholder: 'Enter your roast...'), styled submit button ('ROAST!' text), current player indicator showing active fighter name/avatar. Add input validation for minimum character count and submission state management (loading, disabled states).",
+            "status": "pending",
+            "testStrategy": "Test textarea accepts user input properly, verify submit button enables/disables based on input validation, confirm current player indicator updates correctly"
+          },
+          {
+            "id": 5,
+            "title": "Integrate Visual Feedback and Animation System",
+            "description": "Add visual effects, animations, and feedback systems to enhance the Pokemon-style battle experience",
+            "dependencies": [
+              "3.2",
+              "3.3",
+              "3.4"
+            ],
+            "details": "Implement damage animation effects when roasts land (screen shake, fighter sprite reactions, damage number pop-ups). Add turn transition animations and current player highlighting. Create visual feedback for roast effectiveness (screen flash colors, particle effects). Implement smooth transitions between game states and responsive hover/click effects on interactive elements.",
+            "status": "pending",
+            "testStrategy": "Test all animations play smoothly without performance issues, verify visual feedback appears at correct timing during gameplay, validate animations don't interfere with game functionality"
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "title": "Implement Roast Input and Submission System",
+        "description": "Create the roast input form with validation and submission handling that connects to the game engine",
+        "details": "Build roast input textarea with placeholder text, submit button with disabled state during processing, form validation for minimum text length, integration with roast grader API, and proper error handling. Include loading states and user feedback during roast evaluation.",
+        "testStrategy": "Test form submission with valid/invalid inputs, verify API integration works correctly, test loading states and error handling scenarios",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Roast Input Form UI Components",
+            "description": "Build the basic form structure with textarea for roast input and submit button with proper styling and layout",
+            "dependencies": [],
+            "details": "Create a form component with a textarea element that has placeholder text like 'Enter your roast here...', a submit button, and proper styling to match the game's visual theme. Position the form appropriately within the game interface and ensure it's responsive. Include proper HTML form structure and accessibility attributes.",
+            "status": "pending",
+            "testStrategy": "Test form renders correctly, textarea accepts input, submit button is clickable, verify responsive layout on different screen sizes"
+          },
+          {
+            "id": 2,
+            "title": "Implement Form Validation Logic",
+            "description": "Add client-side validation to ensure roast text meets minimum requirements before submission",
+            "dependencies": [
+              "4.1"
+            ],
+            "details": "Implement validation logic that checks for minimum text length (e.g., 10 characters), trims whitespace, and prevents submission of empty or invalid roasts. Display validation error messages to the user. Use React state to track validation status and show/hide error messages dynamically as user types.",
+            "status": "pending",
+            "testStrategy": "Test with empty input, whitespace-only input, text below minimum length, and valid input. Verify error messages display correctly and validation runs on input change"
+          },
+          {
+            "id": 3,
+            "title": "Add Loading States and Button Management",
+            "description": "Implement loading indicators and button state management during roast submission and processing",
+            "dependencies": [
+              "4.2"
+            ],
+            "details": "Add loading state management that disables the submit button during API calls, shows loading spinner or text like 'Processing roast...', and prevents multiple simultaneous submissions. Include visual feedback such as button text changes or loading animations to indicate processing status.",
+            "status": "pending",
+            "testStrategy": "Test button becomes disabled on submission, loading indicator appears, multiple clicks are prevented, button re-enables after response or error"
+          },
+          {
+            "id": 4,
+            "title": "Integrate with Roast Grader API",
+            "description": "Connect the form submission to the roast grader API endpoint and handle the response data",
+            "dependencies": [
+              "4.3"
+            ],
+            "details": "Implement the API call to /api/roast-grader endpoint, sending roastText and target parameters. Parse the JSON response containing baseDamage, typeEffectiveness, finalDamage, type, and explanation. Pass the response data to the game engine for damage calculation and visual updates. Use fetch API with proper headers and error handling.",
+            "status": "pending",
+            "testStrategy": "Test API integration with valid roast input, verify correct data is sent to endpoint, confirm response data is properly parsed and passed to game engine"
+          },
+          {
+            "id": 5,
+            "title": "Implement Error Handling and User Feedback",
+            "description": "Add comprehensive error handling for API failures and provide clear user feedback for all submission states",
+            "dependencies": [
+              "4.4"
+            ],
+            "details": "Implement try-catch blocks around API calls, handle network errors, API timeouts, and server errors. Display user-friendly error messages like 'Failed to process roast, please try again' and provide retry functionality. Clear the textarea after successful submission and show success feedback before damage is applied. Ensure loading states are properly cleared on error.",
+            "status": "pending",
+            "testStrategy": "Test with simulated network failures, API errors, timeouts. Verify error messages display correctly, retry functionality works, form resets properly after successful submission"
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "title": "Add Sound Effects and Audio Integration",
+        "description": "Integrate background music and sound effects based on roast effectiveness and game events",
+        "details": "Implement audio system using HTML5 Audio API with background music from /assets/music/, sound effects from /assets/sound_effects/ (cheer.wav for 35+ damage, boo.wav for <25 damage, oooooh.wav for super effective hits). Include audio controls and mute functionality.",
+        "testStrategy": "Test audio playback across different browsers, verify sound effects trigger at correct damage thresholds, test audio controls functionality",
+        "priority": "low",
+        "dependencies": [
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Audio Manager Class with HTML5 Audio API",
+            "description": "Build a centralized AudioManager class to handle all audio operations including loading, playing, pausing, and volume control for both background music and sound effects",
+            "dependencies": [],
+            "details": "Create /src/lib/AudioManager.ts class with methods for loadAudio(), playMusic(), playSound(), setVolume(), mute(), unmute(). Implement preloading of all audio files from /assets/music/ and /assets/sound_effects/. Include error handling for failed audio loads and browser compatibility checks for HTML5 Audio API support.",
+            "status": "pending",
+            "testStrategy": "Test audio loading across different browsers, verify preloading works correctly, test error handling for missing files"
+          },
+          {
+            "id": 2,
+            "title": "Implement Background Music System",
+            "description": "Set up continuous background music playback with looping and volume control functionality",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Integrate background music from /assets/music/ directory into the AudioManager. Implement automatic looping, fade in/out transitions, and volume control. Add music start on game initialization and ensure music continues seamlessly throughout gameplay. Include multiple track support if available.",
+            "status": "pending",
+            "testStrategy": "Test music looping functionality, verify volume controls work correctly, test music persistence across game states"
+          },
+          {
+            "id": 3,
+            "title": "Create Damage-Based Sound Effect System",
+            "description": "Implement sound effect triggers based on roast damage effectiveness with specific thresholds",
+            "dependencies": [
+              "5.1"
+            ],
+            "details": "Implement sound effect logic: cheer.wav for damage ≥35, boo.wav for damage <25, oooooh.wav for super effective hits (effectiveness >1.0). Create damage evaluation function that determines which sound to play based on damage amount and effectiveness multiplier from the roast grader API response.",
+            "status": "pending",
+            "testStrategy": "Test sound effects trigger at correct damage thresholds, verify super effective sound plays for high effectiveness, test edge cases at threshold boundaries"
+          },
+          {
+            "id": 4,
+            "title": "Build Audio Controls UI Component",
+            "description": "Create user interface controls for audio management including mute/unmute toggle and volume slider",
+            "dependencies": [
+              "5.1",
+              "5.2"
+            ],
+            "details": "Design and implement audio controls component with mute/unmute button, volume slider, and background music on/off toggle. Position controls in game UI (likely top-right corner). Include visual feedback for mute state and volume level. Persist audio preferences in localStorage for user convenience.",
+            "status": "pending",
+            "testStrategy": "Test mute/unmute functionality, verify volume slider updates audio levels in real-time, test localStorage persistence of audio settings"
+          },
+          {
+            "id": 5,
+            "title": "Integrate Audio System with Game Events",
+            "description": "Connect the audio system to game events and ensure proper timing of sound effects with visual feedback",
+            "dependencies": [
+              "5.2",
+              "5.3",
+              "5.4"
+            ],
+            "details": "Integrate AudioManager with the damage calculation system to trigger appropriate sound effects when roasts are submitted and damage is calculated. Ensure sound effects play in sync with visual damage animations and health bar updates. Add audio feedback for game start, turn changes, and game over events.",
+            "status": "pending",
+            "testStrategy": "Test audio timing with damage animations, verify sound effects sync with visual feedback, test complete audio experience during full game playthrough"
+          }
+        ]
+      },
+      {
+        "id": 6,
+        "title": "Implement Damage Calculation and Visual Feedback",
+        "description": "Create the damage calculation system with visual updates to health bars and Diddy Points counters",
+        "details": "Implement damage calculation logic using API response (baseDamage * typeEffectiveness), update health state, animate damage counter changes, display effectiveness messages (Super Effective/Not Very Effective), and update visual health bars. Include smooth number transitions for better UX.",
+        "testStrategy": "Test damage calculations with various effectiveness multipliers, verify visual updates occur correctly, test health bar animations and counter updates",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Core Damage Calculation Engine",
+            "description": "Implement the core damage calculation logic that processes API responses and computes final damage values",
+            "dependencies": [],
+            "details": "Create a damage calculation function that takes baseDamage and typeEffectiveness from API response, multiplies them to get finalDamage, and handles edge cases like missing values or invalid multipliers. Include validation to ensure damage stays within expected ranges (20-60). Store calculation results in game state for use by other components.",
+            "status": "pending",
+            "testStrategy": "Unit test with various baseDamage (25-45) and typeEffectiveness (0.8x-1.2x) combinations, verify finalDamage calculations, test edge cases with invalid inputs"
+          },
+          {
+            "id": 2,
+            "title": "Implement Health State Management",
+            "description": "Create health state management system that tracks and updates player health based on damage calculations",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Build health state management using React state or context that tracks current health for both players, applies damage from calculations, prevents health from going below 0, and triggers game over conditions. Include methods to update health, reset health, and get current health percentages for visual components.",
+            "status": "pending",
+            "testStrategy": "Test health updates with various damage amounts, verify health doesn't go negative, test game over triggers when health reaches 0"
+          },
+          {
+            "id": 3,
+            "title": "Create Animated Health Bar Components",
+            "description": "Build visual health bar components with smooth animations that reflect current player health",
+            "dependencies": [
+              "6.2"
+            ],
+            "details": "Create health bar React components with CSS animations for smooth health transitions. Implement percentage-based width calculations, color changes based on health levels (green > yellow > red), and smooth animation transitions using CSS transitions or React animation libraries. Include Diddy Points counter display with animated number changes.",
+            "status": "pending",
+            "testStrategy": "Test health bar visual updates with different health percentages, verify smooth animations, test color transitions at different health thresholds"
+          },
+          {
+            "id": 4,
+            "title": "Implement Damage Counter Animations",
+            "description": "Create animated damage counter that shows damage dealt with smooth number transitions and visual effects",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Build damage counter component that displays floating damage numbers with animations. Implement smooth number transitions using CSS animations or libraries like react-spring, add visual effects like fade-in/fade-out, color coding based on damage amount, and positioning relative to the damaged player. Include easing functions for natural movement.",
+            "status": "pending",
+            "testStrategy": "Test damage counter animations with various damage values, verify smooth number transitions, test visual effects and positioning"
+          },
+          {
+            "id": 5,
+            "title": "Add Effectiveness Messaging System",
+            "description": "Create visual feedback system that displays effectiveness messages like 'Super Effective' or 'Not Very Effective'",
+            "dependencies": [
+              "6.1"
+            ],
+            "details": "Implement effectiveness message display system that shows contextual messages based on typeEffectiveness multipliers. Display 'Super Effective!' for 1.1x+ multipliers, 'Not Very Effective...' for 0.9x- multipliers, with appropriate styling, animations, and timing. Include message positioning, fade animations, and removal after display duration.",
+            "status": "pending",
+            "testStrategy": "Test effectiveness messages with different multiplier ranges, verify correct message display for each effectiveness level, test message animations and timing"
+          }
+        ]
+      },
+      {
+        "id": 7,
+        "title": "Create Victory and Defeat Screen System",
+        "description": "Implement game over screens with appropriate character sprites and victory/defeat messaging",
+        "details": "Create victory/defeat screen using /assets/scenes/perspective.png background, display defeated character sprites (trump-defeated.png, elon-defeated.png), show winner announcement, final score display, and restart game button. Include celebration or defeat messaging.",
+        "testStrategy": "Test victory conditions trigger correctly at 100 damage, verify correct defeated sprite displays, test restart functionality resets game state",
+        "priority": "medium",
+        "dependencies": [
+          1,
+          3
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Create Game Over Screen Components Structure",
+            "description": "Build the foundational React components for victory and defeat screens with proper conditional rendering based on game state",
+            "dependencies": [],
+            "details": "Create GameOverScreen component in /src/components/GameOverScreen.tsx with props for winner, finalScores, and onRestart. Implement conditional rendering to show different content for victory vs defeat. Structure the component with sections for background, character sprites, messaging, score display, and restart button. Use TypeScript interfaces for proper typing.",
+            "status": "pending",
+            "testStrategy": "Test component renders correctly with different winner states, verify props are passed correctly, test conditional rendering logic"
+          },
+          {
+            "id": 2,
+            "title": "Implement Background and Layout Styling",
+            "description": "Style the game over screen with the perspective background and create proper layout positioning for all screen elements",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Apply /assets/scenes/perspective.png as background image with proper CSS styling (background-size: cover, background-position: center). Create CSS Grid or Flexbox layout to position character sprites, messaging area, score display, and restart button. Ensure responsive design and proper z-index layering for all elements.",
+            "status": "pending",
+            "testStrategy": "Verify background image loads and displays correctly, test layout responsiveness on different screen sizes, validate element positioning"
+          },
+          {
+            "id": 3,
+            "title": "Add Defeated Character Sprite Display System",
+            "description": "Implement the defeated character sprite display logic that shows the appropriate defeated character image based on game outcome",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Create sprite display logic that shows trump-defeated.png when Trump loses or elon-defeated.png when Elon loses. Position the defeated character sprite prominently on the screen with appropriate sizing and positioning. Add fade-in animation for dramatic effect. Handle image loading and error states gracefully.",
+            "status": "pending",
+            "testStrategy": "Test correct defeated sprite displays for both characters, verify image loading and positioning, test animation effects"
+          },
+          {
+            "id": 4,
+            "title": "Create Winner Announcement and Score Display",
+            "description": "Build the victory/defeat messaging system with winner announcement and final score breakdown display",
+            "dependencies": [
+              "7.1"
+            ],
+            "details": "Implement dynamic messaging that displays winner announcement (e.g., 'TRUMP WINS!' or 'ELON WINS!'), celebration or defeat text based on outcome, and final score display showing both players' damage points. Create visually appealing typography with appropriate colors (gold for winner, red for loser). Add turn count and match duration if available.",
+            "status": "pending",
+            "testStrategy": "Test winner announcement displays correctly for both outcomes, verify score display shows accurate final values, test messaging typography and styling"
+          },
+          {
+            "id": 5,
+            "title": "Implement Restart Game Button and State Reset",
+            "description": "Add restart functionality that resets all game state and returns players to the initial game screen",
+            "dependencies": [
+              "7.1",
+              "7.2",
+              "7.3",
+              "7.4"
+            ],
+            "details": "Create restart button with proper styling and hover effects. Implement onRestart callback function that resets all game state variables (health, current player, combat log, winner, turn count) back to initial values. Handle the transition back to the main game screen. Include confirmation dialog if desired to prevent accidental restarts.",
+            "status": "pending",
+            "testStrategy": "Test restart button functionality resets game state completely, verify transition back to game screen works correctly, test button styling and interactions"
+          }
+        ]
+      },
+      {
+        "id": 8,
+        "title": "Add Combat Log and Turn History Display",
+        "description": "Create a scrollable combat log showing previous roasts, damage dealt, and effectiveness ratings",
+        "details": "Implement combat log component displaying chronological list of roasts with player names, roast text (truncated), damage dealt, effectiveness rating, and turn numbers. Include scrolling functionality and limited history (last 10 turns) for performance.",
+        "testStrategy": "Test combat log updates after each turn, verify scrolling works correctly, test history limitation and text truncation",
+        "priority": "low",
+        "dependencies": [
+          1,
+          2
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Design Combat Log Component Structure",
+            "description": "Create the base CombatLog React component with proper TypeScript interfaces and basic layout structure",
+            "dependencies": [],
+            "details": "Create /src/components/CombatLog.tsx with TypeScript interfaces for CombatLogEntry (id, playerName, roastText, damageDealt, effectiveness, turnNumber, timestamp). Design component props interface and basic JSX structure with scrollable container div. Set up CSS classes for styling and establish the component hierarchy.",
+            "status": "pending",
+            "testStrategy": "Test component renders without errors, verify TypeScript interfaces are properly typed, test basic layout structure"
+          },
+          {
+            "id": 2,
+            "title": "Implement Combat Log Data Management",
+            "description": "Add combat log state management to the main game state and create functions to add new entries",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Extend GameState interface to include combatLog array of CombatLogEntry objects. Implement addCombatLogEntry function that creates new entries with auto-generated IDs and timestamps. Add logic to limit history to last 10 entries using array slicing. Integrate with existing roast submission flow to automatically log each turn.",
+            "status": "pending",
+            "testStrategy": "Test combat log entries are added correctly after each roast submission, verify 10-entry limit works properly, test entry data integrity"
+          },
+          {
+            "id": 3,
+            "title": "Create Combat Log Entry Display Components",
+            "description": "Build individual combat log entry components with proper formatting and text truncation",
+            "dependencies": [
+              "8.1"
+            ],
+            "details": "Create CombatLogEntry sub-component that displays player name, truncated roast text (max 50 characters with ellipsis), damage dealt with visual formatting, effectiveness rating with colored indicators (green for super effective, red for not very effective), and turn number. Use CSS for proper spacing and visual hierarchy.",
+            "status": "pending",
+            "testStrategy": "Test text truncation works correctly for long roasts, verify effectiveness indicators display proper colors, test entry formatting and spacing"
+          },
+          {
+            "id": 4,
+            "title": "Implement Scrolling Functionality and Performance Optimization",
+            "description": "Add smooth scrolling behavior and optimize rendering for the combat log container",
+            "dependencies": [
+              "8.2",
+              "8.3"
+            ],
+            "details": "Implement auto-scroll to bottom when new entries are added using useEffect and scrollIntoView. Add manual scrolling capability with proper overflow handling. Implement virtual scrolling or memo optimization for performance with larger entry lists. Style scrollbar for better visual appearance.",
+            "status": "pending",
+            "testStrategy": "Test auto-scroll behavior when new entries are added, verify manual scrolling works smoothly, test performance with maximum 10 entries"
+          },
+          {
+            "id": 5,
+            "title": "Integrate Combat Log into Main Game Interface",
+            "description": "Add the combat log component to the main game page and style it to fit the Pokemon-style battle interface",
+            "dependencies": [
+              "8.4"
+            ],
+            "details": "Import and place CombatLog component in the main game page layout, typically in a side panel or bottom section. Style the component to match the Pokemon battle theme with appropriate borders, background colors, and positioning. Ensure the combat log updates in real-time as the game progresses and doesn't interfere with other UI elements.",
+            "status": "pending",
+            "testStrategy": "Test combat log appears in correct position in game interface, verify real-time updates during gameplay, test visual integration with existing UI elements"
+          }
+        ]
+      },
+      {
+        "id": 9,
+        "title": "Implement Error Handling and Fallback Systems",
+        "description": "Add comprehensive error handling for API failures, asset loading issues, and network problems",
+        "details": "Implement try-catch blocks around API calls, asset loading error handlers, network timeout handling, graceful fallbacks to default damage scoring (25-44 range), placeholder assets for failed loads, and user-friendly error messages. Ensure game remains playable under all failure conditions.",
+        "testStrategy": "Test with simulated API failures, network disconnection, missing assets, verify fallback systems activate correctly and game continues functioning",
+        "priority": "medium",
+        "dependencies": [
+          2,
+          3,
+          5
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Implement API Error Handling and Timeout Management",
+            "description": "Add comprehensive error handling for all API calls with timeout configuration and retry logic",
+            "dependencies": [],
+            "details": "Wrap all API calls in try-catch blocks, implement timeout configuration (5-10 seconds), add retry logic for failed requests (2-3 attempts), handle network errors, HTTP status errors, and timeout errors. Create centralized error handling utility functions for consistent error management across the application.",
+            "status": "pending",
+            "testStrategy": "Test with simulated network failures, timeout scenarios, and invalid API responses to verify error handling triggers correctly"
+          },
+          {
+            "id": 2,
+            "title": "Create Fallback Damage Scoring System",
+            "description": "Implement default damage calculation system for when API calls fail",
+            "dependencies": [
+              "9.1"
+            ],
+            "details": "Create fallback damage scoring that generates random damage values in the 25-44 range when API fails. Implement type effectiveness fallback with randomized multipliers (0.8x-1.2x). Include fallback roast classification system and ensure seamless transition from API failure to fallback without user awareness.",
+            "status": "pending",
+            "testStrategy": "Test fallback activation during API failures, verify damage values stay within expected range, confirm game continues normally"
+          },
+          {
+            "id": 3,
+            "title": "Add Asset Loading Error Handling",
+            "description": "Implement error handling for failed image, audio, and other asset loading with placeholder alternatives",
+            "dependencies": [],
+            "details": "Add error event listeners to all image and audio elements, create placeholder assets for failed loads (default character sprites, placeholder audio files), implement lazy loading with error recovery, add asset preloading with failure detection, and ensure UI remains functional with missing assets.",
+            "status": "pending",
+            "testStrategy": "Test with missing or corrupted asset files, verify placeholder assets load correctly, ensure no broken images or audio errors appear"
+          },
+          {
+            "id": 4,
+            "title": "Implement User-Friendly Error Messages and Notifications",
+            "description": "Create a notification system for displaying error messages to users without breaking game flow",
+            "dependencies": [
+              "9.1",
+              "9.2",
+              "9.3"
+            ],
+            "details": "Design and implement toast notifications or modal dialogs for error messages, create different message types (warning, error, info), implement auto-dismiss functionality, ensure messages don't interfere with gameplay, and provide clear user guidance for recoverable errors.",
+            "status": "pending",
+            "testStrategy": "Test error message display for various failure scenarios, verify messages are user-friendly and don't disrupt gameplay experience"
+          },
+          {
+            "id": 5,
+            "title": "Add Error Recovery and System Health Monitoring",
+            "description": "Implement system health checks and automatic error recovery mechanisms",
+            "dependencies": [
+              "9.1",
+              "9.2",
+              "9.3",
+              "9.4"
+            ],
+            "details": "Create health check functions for API connectivity, asset availability, and core game systems. Implement automatic recovery mechanisms (reconnection attempts, asset reload, state restoration). Add error logging and monitoring to track failure patterns. Ensure game state remains consistent during error recovery.",
+            "status": "pending",
+            "testStrategy": "Test recovery mechanisms with various failure scenarios, verify system health monitoring works correctly, confirm game state consistency during recovery"
+          }
+        ]
+      },
+      {
+        "id": 10,
+        "title": "Final Integration Testing and Demo Preparation",
+        "description": "Conduct end-to-end testing, performance optimization, and prepare the application for demonstration",
+        "details": "Perform comprehensive end-to-end testing of complete game flow, optimize performance for smooth gameplay, test cross-browser compatibility, prepare demo scenarios with interesting roast examples, verify all assets load correctly, and conduct final bug fixes. Ensure 90-minute development timeline success criteria are met.",
+        "testStrategy": "Complete full game playthroughs from start to finish, test edge cases and error scenarios, verify demo readiness with prepared roast examples, performance testing under various conditions",
+        "priority": "high",
+        "dependencies": [
+          1,
+          2,
+          3,
+          4,
+          6,
+          7
+        ],
+        "status": "pending",
+        "subtasks": [
+          {
+            "id": 1,
+            "title": "Comprehensive End-to-End Game Flow Testing",
+            "description": "Execute complete game playthroughs testing all user interactions from character selection through battle completion",
+            "dependencies": [],
+            "details": "Test complete game flows: character selection → roast input → API calls → damage calculation → health updates → victory conditions. Verify all state transitions work correctly, error handling functions properly, and user feedback is clear. Test edge cases like empty roasts, API failures, simultaneous submissions, and boundary damage values (25-54 range).",
+            "status": "pending",
+            "testStrategy": "Run 10+ complete game sessions with different character combinations, test invalid inputs, simulate API failures, verify fallback mechanisms activate correctly"
+          },
+          {
+            "id": 2,
+            "title": "Cross-Browser Compatibility and Performance Optimization",
+            "description": "Test application across major browsers and optimize performance for smooth gameplay experience",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Test on Chrome, Firefox, Safari, and Edge. Verify consistent rendering, audio playback, and API functionality. Optimize CSS animations, reduce bundle size, implement lazy loading for assets, and ensure 60fps performance. Profile memory usage and fix any leaks. Optimize image assets and implement proper caching strategies.",
+            "status": "pending",
+            "testStrategy": "Use BrowserStack or similar for cross-browser testing, Chrome DevTools for performance profiling, Lighthouse for performance auditing, test on different device types and screen sizes"
+          },
+          {
+            "id": 3,
+            "title": "Asset Loading Verification and Error Handling",
+            "description": "Verify all game assets load correctly and implement robust error handling for missing resources",
+            "dependencies": [
+              "10.1"
+            ],
+            "details": "Systematically verify all assets in /assets/ directory load properly: fighter sprites, background scenes, music files, and sound effects. Implement fallback mechanisms for missing assets, loading states for slow connections, and error boundaries for asset failures. Test with throttled network conditions and offline scenarios.",
+            "status": "pending",
+            "testStrategy": "Use network throttling to simulate slow connections, temporarily rename assets to test error handling, verify fallback assets work correctly, test with disabled JavaScript and blocked resources"
+          },
+          {
+            "id": 4,
+            "title": "Demo Scenario Preparation and Content Validation",
+            "description": "Prepare engaging demo scenarios with pre-tested roast examples that showcase game mechanics effectively",
+            "dependencies": [
+              "10.2",
+              "10.3"
+            ],
+            "details": "Create 5-7 demo-ready roast examples that demonstrate different damage ranges and type effectiveness. Prepare character matchups that show variety in gameplay. Create demonstration script highlighting key features: damage calculation, audio feedback, visual effects, and victory conditions. Ensure examples are appropriate and entertaining for demo audience.",
+            "status": "pending",
+            "testStrategy": "Practice demo scenarios multiple times, verify roast examples consistently produce expected damage ranges, test demo flow timing, prepare backup scenarios for different audience types"
+          },
+          {
+            "id": 5,
+            "title": "Final Bug Fixes and 90-Minute Timeline Validation",
+            "description": "Conduct final bug fixes and verify all 90-minute development timeline success criteria are met",
+            "dependencies": [
+              "10.1",
+              "10.2",
+              "10.3",
+              "10.4"
+            ],
+            "details": "Review and fix any remaining bugs discovered during testing phases. Verify all success criteria are met: functional roast battle system, working damage calculation (25-54 range), audio integration, visual feedback, character selection, and victory conditions. Conduct final code review, update documentation, and ensure deployment readiness. Create final build and verify production environment setup.",
+            "status": "pending",
+            "testStrategy": "Final comprehensive testing session, stakeholder review and sign-off, production deployment test, verify all acceptance criteria are met and documented"
+          }
+        ]
+      }
+    ],
+    "metadata": {
+      "created": "2025-07-30T00:23:44.383Z",
+      "updated": "2025-07-30T00:23:44.384Z",
+      "description": "Tasks for master context"
+    }
+  }
+}

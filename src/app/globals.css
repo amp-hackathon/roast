@@ -1,26 +1,145 @@
-@import "tailwindcss";
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Pokemon-style battle interface custom styles */
+@layer base {
+  body {
+    font-family: 'Geist', system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  /* Pokemon-style health bar animation */
+  .health-bar {
+    @apply relative overflow-hidden;
+  }
+  
+  .health-bar::after {
+    content: '';
+    @apply absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent;
+    animation: shimmer 2s infinite;
+  }
+  
+  /* Damage shake animation */
+  .damage-shake {
+    animation: shake 0.5s;
+  }
+  
+  /* Battle UI glow effects */
+  .battle-ui {
+    @apply bg-gradient-to-br from-gray-900/95 to-black/95 backdrop-blur-sm;
+    box-shadow: 
+      0 0 20px rgba(255, 255, 255, 0.1),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+  
+  /* Fighter sprite hover effects */
+  .fighter-sprite {
+    filter: drop-shadow(0 0 10px rgba(0, 0, 0, 0.5));
+    transition: all 0.3s ease;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+  
+  .fighter-sprite:hover {
+    filter: drop-shadow(0 0 15px rgba(255, 255, 255, 0.3));
+  }
+  
+  .pixelated {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+  }
+  
+  /* Combat log styling */
+  .combat-log {
+    scrollbar-width: thin;
+    scrollbar-color: rgba(255, 255, 255, 0.3) transparent;
+  }
+  
+  .combat-log::-webkit-scrollbar {
+    width: 4px;
+  }
+  
+  .combat-log::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .combat-log::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+  }
+  
+  /* Roast input glow effect */
+  .roast-input:focus {
+    box-shadow: 
+      0 0 0 2px #facc15,
+      0 0 20px rgba(255, 255, 0, 0.3);
+  }
+  
+  /* Button press animation */
+  .battle-button {
+    transition: all 0.2s ease;
+    transform-origin: center;
+  }
+  
+  .battle-button:active {
+    transform: scale(0.95);
+  }
+  
+  /* Turn indicator pulse */
+  .turn-indicator {
+    animation: pulse-glow 1.5s infinite;
+  }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
+  20%, 40%, 60%, 80% { transform: translateX(2px); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { 
+    opacity: 1;
+    transform: scale(1);
+    box-shadow: 0 0 10px currentColor;
+  }
+  50% { 
+    opacity: 0.8;
+    transform: scale(1.05);
+    box-shadow: 0 0 20px currentColor;
+  }
+}
+
+/* Responsive design for mobile */
+@media (max-width: 768px) {
+  .fighter-sprite {
+    width: 120px !important;
+    height: 150px !important;
+  }
+  
+  .health-bar {
+    width: 100px !important;
+  }
+}
+
+/* Background overlay for better text contrast */
+.battle-overlay {
+  background: linear-gradient(
+    45deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.1) 50%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
 }
