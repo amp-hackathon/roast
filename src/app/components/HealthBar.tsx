@@ -26,8 +26,8 @@ export default function HealthBar({ fighter, currentHealth, maxHealth, position 
   return (
     <div className={`absolute ${positionClasses} bg-white/90 border-2 border-black rounded-lg p-3 min-w-48`}>
       <div className="flex justify-between items-center mb-1">
-        <span className="font-bold text-sm">{name}</span>
-        <span className="text-xs font-mono">Lv.50</span>
+        <span className="font-bold text-sm text-black">{name}</span>
+        <span className="text-xs font-mono text-black">Lv.50</span>
       </div>
       
       <div className="mb-2">
@@ -39,7 +39,7 @@ export default function HealthBar({ fighter, currentHealth, maxHealth, position 
         </div>
       </div>
       
-      <div className="flex justify-between text-xs font-mono">
+      <div className="flex justify-between text-xs font-mono text-black">
         <span>HP</span>
         <span>{Math.max(0, Math.round(currentHealth))} / {maxHealth}</span>
       </div>
