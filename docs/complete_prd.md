@@ -23,14 +23,14 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 1. **Roast Input**: Current player submits text-based insult
 2. **AI Evaluation**: Roast grader analyzes and scores the roast (see Roast Grader PRD)
 3. **Attack Animation**: Pokemon-style battle animation plays
-4. **Damage Application**: Health/damage added based on roast strength (25-54 points per roast)
+4. **Damage Application**: Damage added based on roast strength (25-54 points per roast)
 5. **Visual Feedback**: Baby oil accumulates at defender's feet
 6. **Turn Switch**: Roles reverse, opponent's turn
-7. **Win Condition**: First to 100 health/damage slips and loses
+7. **Win Condition**: First to 100 damage slips and loses
 
 ### Victory Conditions
-- **Loss**: Accumulate 100+ health/damage (slip in baby oil)
-- **Win**: Opponent reaches 100 health/damage first
+- **Loss**: Accumulate 100+ damage (slip in baby oil)
+- **Win**: Opponent reaches 100 damage first
 
 ## Technical Architecture
 
@@ -63,10 +63,10 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 #### Fighter Sprites Usage
 - `trump-left.png`: When Trump is left player 
 - `trump-right.png`: When Trump is right player
-- `trump-defeated.png`: When Trump loses (>100 health/damage)
+- `trump-defeated.png`: When Trump loses (>100 damage)
 - `elon-left.png`: When Elon is left player
 - `elon-right.png`: When Elon is right player  
-- `elon-defeated.png`: When Elon loses (>100 health/damage)
+- `elon-defeated.png`: When Elon loses (>100 damage)
 
 #### Background Scenes Usage
 - `intro.png`: Game start screen
@@ -104,7 +104,7 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 
 ### Key UI Components
 1. **Battle Arena**: Pokemon-style split screen with fighters
-2. **Health/Points Display**: Health/damage counter labeled as "Diddy Points" for each player
+2. **Health/Points Display**: Damage counter labeled as "Diddy Points" for each player
 3. **Baby Oil Visual**: Animated pools that grow with damage
 4. **Roast Input**: Large text area for entering insults
 5. **Combat Log**: Scrollable history of previous roasts and results
@@ -119,8 +119,8 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
    - Text input for roasts
    - "Submit Roast" button
    - Turn alternation (Trump → Elon → Trump)
-   - Health/damage accumulation
-   - "You Win/Lose" message at 100 health/damage
+   - Damage accumulation
+   - "You Win/Lose" message at 100 damage
 
 2. **BARE VISUAL ELEMENTS**
    - Two static fighter images
@@ -156,7 +156,7 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 2. Implement basic game state (`useState` for turn tracking)
 3. Simple turn-based input system
 4. Mock roast evaluation (25-45 base damage with 0.8x-1.2x multipliers)
-5. Win condition logic (first to 100 health/damage loses)
+5. Win condition logic (first to 100 damage loses)
 
 ### Agent 2: Roast Grader API (30 minutes)
 **PRIORITY: HIGH - CAN WORK IN PARALLEL**
@@ -171,7 +171,7 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 1. Create game UI layout with basic CSS
 2. Display fighter sprites from `/assets/fighters/`
 3. Show background from `/assets/scenes/`
-4. Health/damage counters labeled as "Diddy Points"
+4. Damage counters labeled as "Diddy Points"
 5. Simple baby oil visual indicator
 
 ### Agent 4: Integration & Polish (30 minutes)
@@ -217,8 +217,8 @@ const evaluateRoast = async (roastText: string, target: 'trump' | 'elon') => {
 ```typescript
 interface GameState {
   currentPlayer: 'trump' | 'elon';
-  trumpHealth: number;        // Health/damage (labeled as "Diddy Points")
-  elonHealth: number;         // Health/damage (labeled as "Diddy Points")
+  trumpHealth: number;        // Damage (labeled as "Diddy Points")
+  elonHealth: number;         // Damage (labeled as "Diddy Points")
   gamePhase: 'battle' | 'gameover';  // Skip setup, start in battle
   combatLog: RoastResult[];
   winner?: 'trump' | 'elon';
@@ -279,8 +279,8 @@ A functional Next.js web application with:
 1. **Input box** where players enter roasts
 2. **Submit button** that triggers evaluation
 3. **Turn alternation** between Trump and Elon
-4. **Health/damage accumulation** toward 100 (labeled as "Diddy Points")
-5. **Win/Loss screen** when someone reaches 100 health/damage
+4. **Damage accumulation** toward 100 (labeled as "Diddy Points")
+5. **Win/Loss screen** when someone reaches 100 damage
 
 ### 🚀 AGENT SPAWN COMMANDS
 
@@ -294,7 +294,7 @@ amp -x "Create /src/app/game/page.tsx with turn-based roast battle using Next.js
 amp -x "Create /src/app/api/roast-grader/route.ts implementing roast evaluation with 25-45 base damage and API fallback"
 
 # Agent 3: Visual Interface
-amp -x "Create game UI in /src/app/game/page.tsx using assets from /assets/ with fighter sprites and health/damage counters"
+amp -x "Create game UI in /src/app/game/page.tsx using assets from /assets/ with fighter sprites and damage counters"
 
 # Agent 4: Integration (start after 30 min)
 amp -x "Connect roast grader API to game engine, add asset integration and victory/defeat screens"
