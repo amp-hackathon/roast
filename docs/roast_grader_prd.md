@@ -28,16 +28,16 @@ Based on content analysis, classify roasts into Pokemon-inspired types:
 
 
 ### 3. Simplified Damage System
-- **Base Damage**: AI assigns 1-50 based on overall roast quality
-- **Type Effectiveness**: 1.5x (super effective), 1x (normal), 0.75x (not very effective)
+- **Base Damage**: AI assigns 25-45 based on overall roast quality
+- **Type Effectiveness**: 1.2x (super effective), 1.0x (normal), 0.8x (not very effective)
 - **Final Damage**: Base × Type Effectiveness
 
 **Damage Scale Targets:**
-- Good solid roast: 30-35 base damage
-- With normal effectiveness (1x): 30-35 final damage ✓
-- With super effective (1.5x): 45-52 final damage
-- With not very effective (0.75x): 22-26 final damage
-- **Target**: 3 good roasts ≈ 100 total damage
+- Good solid roast: 30-40 base damage
+- With normal effectiveness (1.0x): 30-40 final damage ✓
+- With super effective (1.2x): 36-48 final damage
+- With not very effective (0.8x): 24-32 final damage
+- **Target**: 2-3 good roasts ≈ 100 total health/damage (labeled as "Diddy Points")
 
 ### 4. Target Profiles (MVP)
 **Donald Trump**
@@ -59,21 +59,21 @@ Based on content analysis, classify roasts into Pokemon-inspired types:
 ```typescript
 interface RoastResult {
   roastText: string;
-  target: 'trump' | 'musk';
+  target: 'trump' | 'elon';
   type: RoastType;
-  baseDamage: number;
-  typeEffectiveness: number;
-  finalDamage: number;
+  baseDamage: number;        // 25-45 range
+  typeEffectiveness: number; // 0.8x, 1.0x, or 1.2x
+  finalDamage: number;       // baseDamage * typeEffectiveness
   explanation: string;
 }
 ```
 
 ## User Experience Flow
-1. User enters roast against either Trump or Musk (they alternate)
+1. User enters roast against either Trump or Elon (they alternate)
 2. Click "Roast" button
 3. Results display:
    - Roast type with Pokemon-style visual
-   - Damage number with "It's super effective!" style messages
+   - Health/damage number (25-54 range) with "It's super effective!" style messages
    - Brief explanation of scoring
 
 ## AI System Prompt Guidelines

@@ -4,7 +4,7 @@
 ## Project Overview
 
 ### What We're Building
-A Pokemon-style roast battle game where two players (Trump vs Elon) engage in turn-based insult combat. Players take turns delivering roasts, which are evaluated by AI and translated into Pokemon-style attacks with damage calculations. The first player to accumulate 100 "Diddy Points" slips in baby oil and loses.
+A Pokemon-style roast battle game where two players (Trump vs Elon) engage in turn-based insult combat. Players take turns delivering roasts, which are evaluated by AI and translated into Pokemon-style attacks with damage calculations. The first player to accumulate 100 damage (labeled as "Diddy Points") slips in baby oil and loses.
 
 ### Key Constraints
 - **⚡ CRITICAL TIMELINE**: 90 minutes ONLY
@@ -23,14 +23,14 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 1. **Roast Input**: Current player submits text-based insult
 2. **AI Evaluation**: Roast grader analyzes and scores the roast (see Roast Grader PRD)
 3. **Attack Animation**: Pokemon-style battle animation plays
-4. **Damage Application**: Diddy Points added based on roast strength (0-50+ points)
+4. **Damage Application**: Health/damage added based on roast strength (25-54 points per roast)
 5. **Visual Feedback**: Baby oil accumulates at defender's feet
 6. **Turn Switch**: Roles reverse, opponent's turn
-7. **Win Condition**: First to 100 Diddy Points slips and loses
+7. **Win Condition**: First to 100 health/damage slips and loses
 
 ### Victory Conditions
-- **Loss**: Accumulate 100+ Diddy Points (slip in baby oil)
-- **Win**: Opponent reaches 100 Diddy Points first
+- **Loss**: Accumulate 100+ health/damage (slip in baby oil)
+- **Win**: Opponent reaches 100 health/damage first
 
 ## Technical Architecture
 
@@ -50,18 +50,35 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 │   ├── music/             # Background audio
 │   └── sound_effects/     # Battle sounds
 ├── src/
-│   ├── components/        # React components
-│   ├── pages/            # Next.js pages
-│   ├── api/              # API routes
+│   ├── app/              # Next.js App Router pages
+│   │   ├── game/         # Game page
+│   │   └── api/          # API routes
+│   ├── components/       # React components
 │   └── styles/           # CSS/styling
 └── docs/                 # Project documentation
 ```
 
 ### Available Assets
-- **Fighter Sprites**: Trump and Elon (normal + defeated states, left/right facing)
-- **Backgrounds**: America, intro, and perspective scenes
-- **Audio**: Background music ("Punchlines and Uppercuts")
-- **Sound Effects**: Crowd reactions (cheer, boo, "oooooh")
+
+#### Fighter Sprites Usage
+- `trump-left.png`: When Trump is left player 
+- `trump-right.png`: When Trump is right player
+- `trump-defeated.png`: When Trump loses (>100 health/damage)
+- `elon-left.png`: When Elon is left player
+- `elon-right.png`: When Elon is right player  
+- `elon-defeated.png`: When Elon loses (>100 health/damage)
+
+#### Background Scenes Usage
+- `intro.png`: Game start screen
+- `america.png`: Main battle background
+- `perspective.png`: Victory/defeat screen
+
+#### Audio Usage
+- **Background Music**: "Punchlines and Uppercuts" (continuous during battle)
+- **Sound Effects**: 
+  - `cheer.wav`: Good roast (35+ damage)
+  - `boo.wav`: Weak roast (<25 damage)
+  - `oooooh.wav`: Super effective hit (1.2x multiplier)
 
 ## User Interface Design
 
@@ -87,7 +104,7 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 
 ### Key UI Components
 1. **Battle Arena**: Pokemon-style split screen with fighters
-2. **Health/Points Display**: Diddy Points counter for each player
+2. **Health/Points Display**: Health/damage counter labeled as "Diddy Points" for each player
 3. **Baby Oil Visual**: Animated pools that grow with damage
 4. **Roast Input**: Large text area for entering insults
 5. **Combat Log**: Scrollable history of previous roasts and results
@@ -102,8 +119,8 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
    - Text input for roasts
    - "Submit Roast" button
    - Turn alternation (Trump → Elon → Trump)
-   - Damage accumulation
-   - "You Win/Lose" message at 100 points
+   - Health/damage accumulation
+   - "You Win/Lose" message at 100 health/damage
 
 2. **BARE VISUAL ELEMENTS**
    - Two static fighter images
@@ -135,25 +152,26 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 
 ### Agent 1: Core Game Engine (30 minutes)
 **PRIORITY: ABSOLUTE HIGHEST**
-1. Create Next.js game page (`/pages/game.js`)
+1. Create Next.js game page (`/src/app/game/page.tsx`)
 2. Implement basic game state (`useState` for turn tracking)
 3. Simple turn-based input system
-4. Mock roast evaluation (random 1-50 damage for now)
-5. Win condition logic (first to 100 points loses)
+4. Mock roast evaluation (25-45 base damage with 0.8x-1.2x multipliers)
+5. Win condition logic (first to 100 health/damage loses)
 
 ### Agent 2: Roast Grader API (30 minutes)
 **PRIORITY: HIGH - CAN WORK IN PARALLEL**
-1. Create `/pages/api/roast-grader.js`
+1. Create `/src/app/api/roast-grader/route.ts`
 2. Implement the roast evaluation system from `roast_grader_prd.md`
-3. Return proper damage scores and type classifications
-4. Test with simple curl commands
+3. Return proper damage scores (25-45 base) and type classifications
+4. Include API fallback for reliability
+5. Test with simple curl commands
 
 ### Agent 3: Visual Interface (45 minutes)
 **PRIORITY: MEDIUM - PURELY VISUAL**
 1. Create game UI layout with basic CSS
 2. Display fighter sprites from `/assets/fighters/`
 3. Show background from `/assets/scenes/`
-4. Diddy Points counters
+4. Health/damage counters labeled as "Diddy Points"
 5. Simple baby oil visual indicator
 
 ### Agent 4: Integration & Polish (30 minutes)
@@ -173,14 +191,25 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 
 ### Roast Grader Integration
 ```typescript
-// API Call to Roast Grader
-const evaluateRoast = async (roastText: string, target: 'trump' | 'musk') => {
-  const response = await fetch('/api/roast-grader', {
-    method: 'POST',
-    body: JSON.stringify({ roastText, target })
-  });
-  
-  return response.json(); // Returns RoastResult from roast_grader_prd.md
+// API Call to Roast Grader with Fallback
+const evaluateRoast = async (roastText: string, target: 'trump' | 'elon') => {
+  try {
+    const response = await fetch('/api/roast-grader', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ roastText, target })
+    });
+    return await response.json();
+  } catch (error) {
+    // FALLBACK: Always return playable damage
+    return {
+      baseDamage: 25 + Math.floor(Math.random() * 20), // 25-44
+      typeEffectiveness: 1.0,
+      finalDamage: 25 + Math.floor(Math.random() * 20),
+      type: 'normal',
+      explanation: 'Connection error - using default scoring'
+    };
+  }
 };
 ```
 
@@ -188,12 +217,23 @@ const evaluateRoast = async (roastText: string, target: 'trump' | 'musk') => {
 ```typescript
 interface GameState {
   currentPlayer: 'trump' | 'elon';
-  trumpDiddyPoints: number;
-  elonDiddyPoints: number;
-  gamePhase: 'setup' | 'battle' | 'gameover';
+  trumpHealth: number;        // Health/damage (labeled as "Diddy Points")
+  elonHealth: number;         // Health/damage (labeled as "Diddy Points")
+  gamePhase: 'battle' | 'gameover';  // Skip setup, start in battle
   combatLog: RoastResult[];
   winner?: 'trump' | 'elon';
+  turnCount: number;
 }
+
+// Initial state
+const initialState: GameState = {
+  currentPlayer: Math.random() > 0.5 ? 'trump' : 'elon',
+  trumpHealth: 0,
+  elonHealth: 0,
+  gamePhase: 'battle',
+  combatLog: [],
+  turnCount: 0
+};
 ```
 
 ## Success Criteria
@@ -239,8 +279,8 @@ A functional Next.js web application with:
 1. **Input box** where players enter roasts
 2. **Submit button** that triggers evaluation
 3. **Turn alternation** between Trump and Elon
-4. **Damage accumulation** toward 100 Diddy Points
-5. **Win/Loss screen** when someone reaches 100
+4. **Health/damage accumulation** toward 100 (labeled as "Diddy Points")
+5. **Win/Loss screen** when someone reaches 100 health/damage
 
 ### 🚀 AGENT SPAWN COMMANDS
 
@@ -248,21 +288,21 @@ A functional Next.js web application with:
 
 ```bash
 # Agent 1: Core Game Engine
-amp -x "Create /pages/game.js with basic turn-based roast battle game state management"
+amp -x "Create /src/app/game/page.tsx with turn-based roast battle using Next.js App Router and 25-45 damage system"
 
 # Agent 2: Roast Grader API  
-amp -x "Create /pages/api/roast-grader.js implementing the roast evaluation from docs/roast_grader_prd.md"
+amp -x "Create /src/app/api/roast-grader/route.ts implementing roast evaluation with 25-45 base damage and API fallback"
 
 # Agent 3: Visual Interface
-amp -x "Create game UI layout using assets from /assets/ directory with fighter sprites and basic styling"
+amp -x "Create game UI in /src/app/game/page.tsx using assets from /assets/ with fighter sprites and health/damage counters"
 
 # Agent 4: Integration (start after 30 min)
-amp -x "Integrate roast grader API with game engine and add final polish"
+amp -x "Connect roast grader API to game engine, add asset integration and victory/defeat screens"
 ```
 
 ### 🔥 EMERGENCY FALLBACKS
 If any agent fails:
-- **No AI**: Use `Math.floor(Math.random() * 50) + 1` for damage
+- **No AI**: Use `25 + Math.floor(Math.random() * 20)` for damage (25-44)
 - **No Assets**: Use text placeholders ("TRUMP" vs "ELON")  
 - **No Styling**: Plain HTML with inline styles
 - **No Polish**: Basic alert() for win/loss
