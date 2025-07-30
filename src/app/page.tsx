@@ -1,10 +1,11 @@
 'use client';
 
-import { useReducer } from 'react';
+import { useReducer, useEffect } from 'react';
 import { BattleState, Fighter, Attack } from '@/app/types/battle';
 import IntroScene from '@/app/components/IntroScene';
 import BattleScene from '@/app/components/BattleScene';
 import VictoryScreen from '@/app/components/VictoryScreen';
+import { audioManager } from '@/app/utils/audioManager';
 
 type BattleAction = 
   | { type: 'START_BATTLE' }
@@ -75,6 +76,23 @@ function battleReducer(state: BattleState, action: BattleAction): BattleState {
 export default function Home() {
   const [battleState, dispatch] = useReducer(battleReducer, initialState);
   
+  // Handle audio based on scene changes
+  useEffect(() => {
+    if (battleState.scene === 'battle') {
+      audioManager.startBattleMusic();
+    } else if (battleState.scene === 'victory') {
+      audioManager.stopBattleMusic();
+      audioManager.playCheer();
+    }
+    
+    return () => {
+      // Cleanup audio when component unmounts
+      if (battleState.scene === 'victory') {
+        audioManager.cleanup();
+      }
+    };
+  }, [battleState.scene]);
+  
   const handleIntroComplete = () => {
     dispatch({ type: 'START_BATTLE' });
   };
@@ -88,6 +106,7 @@ export default function Home() {
   };
   
   const handleRestart = () => {
+    audioManager.stopBattleMusic();
     dispatch({ type: 'RESTART' });
   };
 

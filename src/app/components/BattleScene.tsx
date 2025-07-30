@@ -9,6 +9,7 @@ import Fighter from './Fighter';
 import HealthBar from './HealthBar';
 import AttackMenu from './AttackMenu';
 import AttackAnimation from './AttackAnimation';
+import { audioManager } from '@/app/utils/audioManager';
 
 interface BattleSceneProps {
   battleState: BattleState;
@@ -36,6 +37,15 @@ export default function BattleScene({ battleState, onAttack, onVictory }: Battle
     
     // Wait for attack animation
     setTimeout(() => {
+      // Play sound effect based on effectiveness
+      if (effectiveness > 1) {
+        audioManager.playCheer(); // Super effective
+      } else if (effectiveness < 1) {
+        audioManager.playBoo(); // Not very effective
+      } else {
+        audioManager.playOoooh(); // Normal effectiveness
+      }
+      
       onAttack(attack, effectiveness, finalDamage);
       
       // Check for victory
@@ -59,7 +69,7 @@ export default function BattleScene({ battleState, onAttack, onVictory }: Battle
     <div className="relative w-full h-screen overflow-hidden">
       {/* Background */}
       <Image
-        src="/assets/scenes/background-best-perspective.png"
+        src="/assets/scenes/background-america.png"
         alt="Battle Arena"
         fill
         className="object-cover pixelated"

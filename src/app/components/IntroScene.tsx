@@ -39,8 +39,8 @@ export default function IntroScene({ onComplete }: IntroSceneProps) {
     <div className="relative w-full h-screen overflow-hidden">
       {/* Background */}
       <Image
-        src="/assets/scenes/background-america.png"
-        alt="America Arena"
+        src="/assets/scenes/background-intro.png"
+        alt="Intro Scene"
         fill
         className="object-cover pixelated"
         priority
