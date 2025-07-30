@@ -87,15 +87,15 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 ┌─────────────────────────────────────────────┐
 │  [Background Scene]                         │
 │                                             │
-│  [Trump Sprite]    VS    [Elon Sprite]     │
+│  [Trump Sprite]    VS    [Elon Sprite]      │
 │                                             │
-│  [Baby Oil Pool]         [Baby Oil Pool]   │
-│  Diddy Points: 45        Diddy Points: 23  │
+│  [Health Bar]             [Health Bar]      │
+│  Diddy Points: 45        Diddy Points: 23   │
 │                                             │
-│  ┌─────────────────────────────────────┐   │
-│  │ [Roast Input Box]                   │   │
-│  │ "Enter your roast here..."          │   │
-│  └─────────────────────────────────────┘   │
+│  ┌─────────────────────────────────────┐    │
+│  │ [Roast Input Box]                   │    │
+│  │ "Enter your roast here..."          │    │
+│  └─────────────────────────────────────┘    │
 │                [ROAST!] Button              │
 │                                             │
 │  [Combat Log / Previous Roasts]             │
@@ -166,7 +166,7 @@ A Pokemon-style roast battle game where two players (Trump vs Elon) engage in tu
 2. Display fighter sprites from `/assets/fighters/`
 3. Show background from `/assets/scenes/`
 4. Damage counters labeled as "Diddy Points"
-5. Simple baby oil text indicator
+5. Simple health bar indicator
 
 ### Agent 4: Integration & Polish (30 minutes)
 **PRIORITY: FINAL ASSEMBLY**
